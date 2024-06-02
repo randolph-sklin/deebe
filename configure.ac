@@ -24,7 +24,7 @@ AM_INIT_AUTOMAKE
 # c11 c
 # _GNU_SOURCE to compile is non-c99 parts
 AC_PROG_CC
-CFLAGS="$CFLAGS -Wall -Werror -std=c11 -D_GNU_SOURCE"
+CFLAGS="$CFLAGS -fdump-rtl-expand -Wall -Werror -std=c11 -D_GNU_SOURCE"
 
 
 AC_PROG_CC
