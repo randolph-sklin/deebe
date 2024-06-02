@@ -45,112 +45,110 @@
 
 ps_err_e ps_lcontinue(struct ps_prochandle *ph, lwpid_t lwpid)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
 ps_err_e ps_lgetfpregs(struct ps_prochandle *ph, lwpid_t lwpid,
 		       prfpregset_t *fpregs)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
-ps_err_e ps_lgetregs(struct ps_prochandle *ph, lwpid_t lwpid,
-		     prgregset_t gregs)
+ps_err_e ps_lgetregs(struct ps_prochandle *ph, lwpid_t lwpid, prgregset_t gregs)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
 ps_err_e ps_lsetfpregs(struct ps_prochandle *ph, lwpid_t lwpid,
 		       const prfpregset_t *fpregs)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
 ps_err_e ps_lsetregs(struct ps_prochandle *ph, lwpid_t lwpid,
 		     const prgregset_t gregs)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
 #ifdef __i386__
-ps_err_e ps_lgetxmmregs (struct ps_prochandle *ph, lwpid_t lwpid,
-			 char *xmmregs)
+ps_err_e ps_lgetxmmregs(struct ps_prochandle *ph, lwpid_t lwpid, char *xmmregs)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
-ps_err_e ps_lsetxmmregs (struct ps_prochandle *ph, lwpid_t lwpid,
-			 const char *xmmregs)
+ps_err_e ps_lsetxmmregs(struct ps_prochandle *ph, lwpid_t lwpid,
+			const char *xmmregs)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 #endif
 
 ps_err_e ps_lstop(struct ps_prochandle *ph, lwpid_t lwpid)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
 ps_err_e ps_linfo(struct ps_prochandle *ph, lwpid_t lwpid, void *buf)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
 ps_err_e ps_pcontinue(struct ps_prochandle *ph)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
 ps_err_e ps_pdmodel(struct ps_prochandle *ph, int *mod)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
 ps_err_e ps_pglobal_lookup(struct ps_prochandle *ph, const char *obj,
 			   const char *sym, psaddr_t *addr)
 {
-  uintptr_t sym_addr;
+	uintptr_t sym_addr;
 
-  if (symbol_lookup(sym, &sym_addr) == RET_ERR)
-    return PS_NOSYM;
+	if (symbol_lookup(sym, &sym_addr) == RET_ERR)
+		return PS_NOSYM;
 
-  *addr = (psaddr_t) sym_addr;
-  return PS_OK;
+	*addr = (psaddr_t)sym_addr;
+	return PS_OK;
 }
 
-void     ps_plog(const char *fmt, ...)
+void ps_plog(const char *fmt, ...)
 {
 }
 
 ps_err_e ps_pread(struct ps_prochandle *ph, psaddr_t addr, void *buf,
 		  size_t size)
 {
-  size_t read_size;
-  
-  if (ph->target->read_mem(ph->pid, (uint64_t) addr, (uint8_t*) buf, size,
-			   &read_size) == RET_ERR) {
-    return PS_ERR;
-  }
+	size_t read_size;
 
-  if (size != read_size)
-    return PS_ERR;
-  
-  return PS_OK;
+	if (ph->target->read_mem(ph->pid, (uint64_t)addr, (uint8_t *)buf, size,
+				 &read_size) == RET_ERR) {
+		return PS_ERR;
+	}
+
+	if (size != read_size)
+		return PS_ERR;
+
+	return PS_OK;
 }
 
 ps_err_e ps_pstop(struct ps_prochandle *ph)
 {
-  return PS_ERR;
+	return PS_ERR;
 }
 
 ps_err_e ps_pwrite(struct ps_prochandle *ph, psaddr_t addr, const void *buf,
 		   size_t size)
 {
-  if (ph->target->write_mem(ph->pid, (uint64_t) addr, (uint8_t*) buf,
-			    size) == RET_ERR) {
-    return PS_ERR;
-  }
+	if (ph->target->write_mem(ph->pid, (uint64_t)addr, (uint8_t *)buf,
+				  size) == RET_ERR) {
+		return PS_ERR;
+	}
 
-  return PS_OK;
+	return PS_OK;
 }
 #endif /* HAVE_THREAD_DB_H */

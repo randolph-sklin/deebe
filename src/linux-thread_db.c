@@ -45,15 +45,15 @@
 
 int initialize_thread_db(pid_t pid, struct gdb_target_s *t)
 {
-  int ret = RET_ERR;
-  return ret;
+	int ret = RET_ERR;
+	return ret;
 }
 
 int thread_db_get_tls_address(int64_t thread, uint64_t lm, uint64_t offset,
 			      uintptr_t *tlsaddr)
 {
-  int ret = RET_ERR;
-  return ret;
+	int ret = RET_ERR;
+	return ret;
 }
 
 #endif /* HAVE_THREAD_DB_H */

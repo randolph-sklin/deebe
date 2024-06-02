@@ -45,55 +45,54 @@
 
 int initialize_thread_db(pid_t pid, struct gdb_target_s *t)
 {
-  int ret;
-  ret = td_init ();
-  if (ret != TD_OK)
-    return RET_ERR;
+	int ret;
+	ret = td_init();
+	if (ret != TD_OK)
+		return RET_ERR;
 
-  _target.ph.pid = pid;
-  _target.ph.target = t;
-  ret = td_ta_new (&_target.ph, &_target.thread_agent);
-  switch (ret)
-    {
-    case TD_NOLIBTHREAD:
-      /* Thread library not detected */
-      _target.ph.pid = 0;
-      _target.ph.target = NULL;
-      return RET_ERR;
-      
-    case TD_OK:
-      /* Thread library detected */
-      return RET_OK;
+	_target.ph.pid = pid;
+	_target.ph.target = t;
+	ret = td_ta_new(&_target.ph, &_target.thread_agent);
+	switch (ret) {
+	case TD_NOLIBTHREAD:
+		/* Thread library not detected */
+		_target.ph.pid = 0;
+		_target.ph.target = NULL;
+		return RET_ERR;
 
-    default:
-      fprintf(stderr, "Error initializing thread_db library\n");
-      _target.ph.pid = 0;
-      _target.ph.target = NULL;
-      return RET_ERR;
-    }
-  return RET_OK;
+	case TD_OK:
+		/* Thread library detected */
+		return RET_OK;
+
+	default:
+		fprintf(stderr, "Error initializing thread_db library\n");
+		_target.ph.pid = 0;
+		_target.ph.target = NULL;
+		return RET_ERR;
+	}
+	return RET_OK;
 }
 
 int thread_db_get_tls_address(int64_t thread, uint64_t lm, uint64_t offset,
 			      uintptr_t *tlsaddr)
 {
-  td_err_e err;
-  td_thrhandle_t th;
-  psaddr_t addr = 0;
+	td_err_e err;
+	td_thrhandle_t th;
+	psaddr_t addr = 0;
 
-  if (_target.thread_agent == NULL)
-    return RET_ERR;
-  
-  err = td_ta_map_id2thr(_target.thread_agent, thread, &th);
-  if (err)
-    return RET_ERR;
+	if (_target.thread_agent == NULL)
+		return RET_ERR;
 
-  err = td_thr_tls_get_addr(&th, lm, offset, &addr);
-  if (err)
-    return RET_ERR;
-  *tlsaddr = (uintptr_t) addr;
+	err = td_ta_map_id2thr(_target.thread_agent, thread, &th);
+	if (err)
+		return RET_ERR;
 
-  return RET_OK;
+	err = td_thr_tls_get_addr(&th, lm, offset, &addr);
+	if (err)
+		return RET_ERR;
+	*tlsaddr = (uintptr_t)addr;
+
+	return RET_OK;
 }
 
 #endif /* HAVE_THREAD_DB_H */

@@ -36,7 +36,11 @@
 #include "gdb-arm.h"
 
 bool ptrace_arch_read_auxv(char *out_buff, size_t out_buf_size, size_t offset,
-                           size_t *size) {
-  return ptrace_os_read_auxv(out_buff, out_buf_size, offset, size);
+			   size_t *size)
+{
+	return ptrace_os_read_auxv(out_buff, out_buf_size, offset, size);
 }
-size_t ptrace_arch_swbrk_rollback() { return 0; }
+size_t ptrace_arch_swbrk_rollback()
+{
+	return 0;
+}
